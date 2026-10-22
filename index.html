@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لمسة | إكسسوارات نسائية</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#faf8f4;color:#252525;font-family:Arial}
+header{background:#171717;color:#d9b76e;text-align:center;padding:28px}
+h1{font-size:40px;margin:0}
+header p{color:white}
+nav{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;padding:15px}
+button{background:#171717;color:#e9ca86;border:0;border-radius:9px;padding:12px;cursor:pointer}
+h2{text-align:center}
+.products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:15px}
+.product{background:white;border-radius:12px;padding:18px;text-align:center;box-shadow:0 2px 8px #ddd}
+.photo{font-size:55px;padding:20px}
+.price{color:#9c7839;font-weight:bold}
+.cart{background:white;margin:15px;padding:20px;border-radius:12px}
+footer{text-align:center;padding:25px;background:#171717;color:white}
+</style>
+</head>
+<body>
+<header>
+<h1>لمسة</h1>
+<p>أناقتك تبدأ من التفاصيل</p>
+</header>
+<nav>
+<button onclick="filter('all')">الكل</button>
+<button onclick="filter('سلاسل')">سلاسل</button>
+<button onclick="filter('حلق')">حلق</button>
+<button onclick="filter('أساور')">أساور</button>
+<button onclick="filter('أطقم')">أطقم</button>
+</nav>
+<h2>تسوقي إكسسواراتك المفضلة</h2>
+<div class="products" id="products"></div>
+<div class="cart">
+<h2>🛒 سلة المشتريات</h2>
+<div id="items">السلة فارغة</div>
+<h3 id="total">الإجمالي: 0 ر.س</h3>
+<button onclick="clearCart()">إفراغ السلة</button>
+</div>
+<footer>لمسة للإكسسوارات النسائية © 2026</footer>
+<script>
+const products=[
+{name:"سلسال أنيق",cat:"سلاسل",price:25,icon:"📿"},
+{name:"حلق ذهبي",cat:"حلق",price:18,icon:"✨"},
+{name:"أسورة ناعمة",cat:"أساور",price:20,icon:"💎"},
+{name:"طقم إكسسوارات",cat:"أطقم",price:65,icon:"🎁"}
+];
+let cart=[];
+function filter(cat){
+document.getElementById("products").innerHTML=
+products.filter(p=>cat==="all"||p.cat===cat)
+.map(p=>`<div class="product">
+<div class="photo">${p.icon}</div>
+<h3>${p.name}</h3>
+<p class="price">${p.price} ر.س</p>
+<button onclick="add(${products.indexOf(p)})">أضيفي للسلة</button>
+</div>`).join("");
+}
+function add(i){cart.push(products[i]);showCart()}
+function showCart(){
+document.getElementById("items").innerHTML=
+cart.length?cart.map(p=>`<p>${p.name} - ${p.price} ر.س</p>`).join(""):"السلة فارغة";
+document.getElementById("total").textContent=
+"الإجمالي: "+cart.reduce((s,p)=>s+p.price,0)+" ر.س";
+}
+function clearCart(){cart=[];showCart()}
+filter("all");
+</script>
+</body>
+</html>
