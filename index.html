@@ -67,8 +67,43 @@ cart.length?cart.map(p=>`<p>${p.name} - ${p.price} ر.س</p>`).join(""):"الس�
 document.getElementById("total").textContent=
 "الإجمالي: "+cart.reduce((s,p)=>s+p.price,0)+" ر.س";
 }
-function clearCart(){cart=[];showCart()}
-filter("all");
+function 
+  const SUPABASE_URL = "https://seaxfhpotzhjddglmqxd.supabase.co";
+const SUPABASE_KEY = "sb_publishable_TSEf93sPwRBjIisTrCpWGg_KubTnapB";
+
+async function loadProducts() {
+  try {
+    const response = await fetch(
+      SUPABASE_URL + "/rest/v1/products?select=*",
+      {
+        headers: {
+          apikey: SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) throw new Error("تعذر تحميل المنتجات");
+
+    const data = await response.json();
+
+    products.length = 0;
+    data.forEach(p => {
+      products.push({
+        name: p.name_ar,
+        cat: "all",
+        price: Number(p.price),
+        icon: "💎"
+      });
+    });
+
+    filter("all");
+  } catch (error) {
+    console.error(error);
+    filter("all");
+  }
+}
+
+loadProducts();
 </script>
 </body>
 </html>
