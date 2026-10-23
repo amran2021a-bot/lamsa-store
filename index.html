@@ -104,6 +104,23 @@ async function loadProducts() {
 }
 
 loadProducts();
-</script>
+function orderWhatsApp() {
+  if (cart.length === 0) {
+    alert("السلة فارغة");
+    return;
+  }
+  const items = cart.map(p =>
+    p.name + " - " + p.price + " ر.س"
+  ).join("\n");
+  const total = cart.reduce(
+    (sum, p) => sum + Number(p.price), 0
+  );
+  const message = "طلب جديد من متجر لمسة\n" +
+    items + "\nالإجمالي: " + total + " ر.س";
+  window.open(
+    "https://wa.me/966546068621?text=" +
+    encodeURIComponent(message), "_blank"
+  );
+}
 </body>
 </html>
